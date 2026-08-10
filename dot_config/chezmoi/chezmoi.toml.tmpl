@@ -1,0 +1,36 @@
+# Setup vars
+{{- $hostname := .chezmoi.hostname }}
+{{- $isLinux := eq .chezmoi.os "linux" }}
+{{- $isMacos := eq .chezmoi.os "darwin" }}
+
+{{- if lookPath "nvim" }}
+[edit]
+command = "nvim"
+{{- end }}
+
+[data]
+{{- if $isMacos }}
+nf_work_email = "kevingangi@neuroflow.com"
+{{- end }}
+{{- if $isLinux }}
+legacy_email = "kevin_gangi@yahoo.com"
+email = "kevin@gangi-home.us"
+{{- end }}
+
+{{- if lookPath "delta" }}
+[diff]
+command = "delta"
+pager = "delta"
+#exclude = ["scripts"]
+{{- end }}
+
+{{- if lookPath "nvim" }}
+[merge]
+command = "nvim"
+args = [
+    "-d",
+    {{ printf "%q" "{{ .Destination }}" }},
+    {{ printf "%q" "{{ .Source }}" }},
+    {{ printf "%q" "{{ .Target }}" }},
+]
+{{- end }}

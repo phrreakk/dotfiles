@@ -1,0 +1,26 @@
+[user]
+name = "Kevin Gangi"
+email = {{ .email | quote }}
+
+[core]
+{{- if lookPath "delta" }}
+pager = delta
+{{- end}}
+
+[interactive]
+{{- if lookPath "delta" }}
+diffFilter = delta --color-only
+
+[delta]
+navigate = true
+side-by-side = true
+light = false
+line-numbers = true
+
+[merge]
+conflictstyle = diff3
+
+[diff]
+colorMoved = default
+{{- end}}
+

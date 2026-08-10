@@ -1,6 +1,12 @@
+# Setup vars
+{{- $hostname := .chezmoi.hostname }}
+{{- $isLinux := eq .chezmoi.os "linux" }}
+{{- $isMacos := eq .chezmoi.os "darwin" }}
 
+{{- if $isMacos }}
 # Kiro CLI pre block. Keep at the top of this file.
 [[ -f "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.pre.zsh" ]] && builtin source "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.pre.zsh"
+{{- end }}
 
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH
