@@ -1,26 +1,58 @@
 [user]
-name = "Kevin Gangi"
-email = {{ .email | quote }}
+  name = {{ .name | quote }}
+  email = {{ .email | quote }}
+
+[branch]
+  sort = -committerdate
+
+[commit]
+  verbose = true
 
 [core]
+  logallrefupdates = true
 {{- if lookPath "delta" }}
-pager = delta
+  pager = delta
 {{- end}}
+
+[fetch]
+  prune = true
+  pruneTags = true
+  all = true
+
+[help]
+  autocorrect = prompt
+
+[init]
+  defaultBranch = main
 
 [interactive]
 {{- if lookPath "delta" }}
-diffFilter = delta --color-only
+  diffFilter = delta --color-only
 
 [delta]
-navigate = true
-side-by-side = true
-light = false
-line-numbers = true
+  navigate = true
+  side-by-side = true
+  light = false
+  line-numbers = true
 
 [merge]
-conflictstyle = diff3
+  conflictstyle = zdiff3
 
 [diff]
-colorMoved = default
+  algorithm = histogram
+  mnemonicPreix = true
+  colorMoved = plain
+  renames = true
 {{- end}}
+
+[push]
+  default = simple
+  autoSetupRemote = true
+  followTags = true
+
+[tag]
+  sort = version:refname
+
+[worktree]
+  guessRemote = true
 
