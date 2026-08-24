@@ -9,10 +9,12 @@ command = "nvim"
 {{- end }}
 
 [data]
-{{- if $isMacos }}
-nf_work_email = "kevingangi@neuroflow.com"
+{{- if and ($isMacos) (eq $hostname "Mac")}}
+name = "kevingangi"
+email = "kevingangi@neuroflow.com"
 {{- end }}
 {{- if $isLinux }}
+name = "Kevin Gangi"
 legacy_email = "kevin_gangi@yahoo.com"
 email = "kevin@gangi-home.us"
 {{- end }}
