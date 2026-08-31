@@ -141,8 +141,11 @@ alias gfetch="git fetch origin --prune && git pull && git fetch -p && git branch
 alias gwa="git worktree add"
 alias gwl="git worktree list"
 alias gwr="git worktree remove"
-# alias nvim="toolbox run -c dev-f44 nvim"
+
+{{- if $isLinux }}
 alias chezmoi="toolbox run -c dev-f44 chezmoi"
+# alias nvim="toolbox run -c dev-f44 nvim"
+{{- end }}
 
 eval "$(starship init zsh)"
 
