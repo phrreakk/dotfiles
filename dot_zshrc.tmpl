@@ -76,13 +76,6 @@ zstyle :omz:plugins:ssh-agent identities kevin+jan2026 kevin+nov2025
 # see 'man strftime' for details.
 # HIST_STAMPS="mm/dd/yyyy"
 
-# Number of commands to remember in the current session (memory)
-HISTSIZE=10000
-# Number of commands to save to the history file (disk)
-SAVEHIST=10000 
-# (Optional) Specify the file location if not already set
-HISTFILE=~/.zsh_history
-
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
@@ -91,11 +84,49 @@ HISTFILE=~/.zsh_history
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(1password git ssh-agent fzf aliases alias-finder aws branch colorize docker )
+# plugins=(1password git ssh-agent fzf aliases alias-finder aws branch colorize docker )
 
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
+# Zinit installation
+ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+[ ! -d $ZINIT_HOME ] && mkdir -p "$(dirname $ZINIT_HOME)"
+[ ! -d $ZINIT_HOME/.git ] && git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
+source "${ZINIT_HOME}/zinit.zsh"
+
+# Load OMZ libs we need (not the whole thing)
+zinit snippet OMZL::git.zsh
+zinit snippet OMZL::directories.zsh
+zinit snippet OMZL::theme-and-appearance.zsh
+zinit snippet OMZL::async_prompt.zsh
+
+# eza config - must be set BEFORE loading the plugin
+zstyle ':omz:plugins:eza' 'dirs-first' yes
+zstyle ':omz:plugins:eza' 'git-status' yes
+zstyle ':omz:plugins:eza' 'header' yes
+zstyle ':omz:plugins:eza' 'icons' yes
+
+# Load OMZ plugins
+zinit snippet OMZP::git
+zinit snippet OMZP::brew
+zinit snippet OMZP::direnv
+zinit snippet OMZP::eza
+zinit snippet OMZP::1password
+zinit snippet OMZP::rbw
+zinit snippet OMZP::ssh-agent
+zinit snippet OMZP::aws
+zinit snippet OMZP::docker
+zinit snippet OMZP::branch
+
+# Load completions efficiently (after prompt is ready)
+autoload -Uz compinit
+compinit
+
+# Zsh plugins
+zinit light Aloxaf/fzf-tab
+zinit light zsh-users/zsh-syntax-highlighting
+zinit light zsh-users/zsh-autosuggestions
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
@@ -113,6 +144,12 @@ source $ZSH/oh-my-zsh.sh
 # export ARCHFLAGS="-arch $(uname -m)"
 
 # Set personal opts for zsh
+# Number of commands to remember in the current session (memory)
+HISTSIZE=10000
+# Number of commands to save to the history file (disk)
+SAVEHIST=10000 
+# (Optional) Specify the file location if not already set
+HISTFILE=~/.zsh_history
 setopt aliases
 setopt appendhistory
 setopt share_history
@@ -148,12 +185,15 @@ alias chezmoi="toolbox run -c dev-f44 chezmoi"
 {{- end }}
 
 eval "$(starship init zsh)"
+eval "$(zoxide init zsh)"
 
 # Editor
 export EDITOR="nvim"
 export VISUAL="nvim"
 
+{{- if $isMacos }}
 # Kiro CLI post block. Keep at the bottom of this file.
 [[ -f "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/kiro-cli/shell/zshrc.post.zsh"
+{{- end }}
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
