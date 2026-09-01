@@ -109,10 +109,12 @@ zstyle ':omz:plugins:eza' 'icons' yes
 
 # Load OMZ plugins
 zinit snippet OMZP::git
+{{- if $isMacos }}
+zinit snippet OMZP::1password
 zinit snippet OMZP::brew
+{{- end }}
 zinit snippet OMZP::direnv
 zinit snippet OMZP::eza
-zinit snippet OMZP::1password
 zinit snippet OMZP::rbw
 zinit snippet OMZP::ssh-agent
 zinit snippet OMZP::aws
