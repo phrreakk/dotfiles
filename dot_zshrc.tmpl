@@ -174,7 +174,7 @@ alias gs='git status'
 alias gc='git commit -m'
 alias gl='git log --oneline'
 alias gp='git push'
-alias ll='ls -ltr'
+alias ll='eza -l --sort=modified'
 alias gpull='git fetch origin --prune && git pull'
 alias gfetch="git fetch origin --prune && git pull && git branch -vv | awk '/: gone]/{print \$1}' | xargs -r git branch -D"
 alias gwa="git worktree add"
